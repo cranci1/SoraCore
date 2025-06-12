@@ -23,5 +23,7 @@ SoraCore is a Swift package designed as a security framework for modules created
 
 This code is made available for transparency purposes only. All rights are reserved by the author. Unauthorized use may result in legal action.
 
+This means no other apps should have a method to allow Sora modules to work inside their app.
+
 > [!Note]
 > This project is open-source to provide transparency about its security mechanisms and to demonstrate that no malicious code is present. However, being open-source does not grant usage rights beyond those explicitly stated in this license.
