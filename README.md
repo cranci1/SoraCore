@@ -2,14 +2,15 @@
 
 SoraCore is a Swift package designed as a security framework for modules created specifically for the [Sora/Sulfur iOS application](https://github.com/cranci1/Sora). It provides runtime validation and protection mechanisms to ensure modules can only be executed within their intended application environment.
 
-## License and Usage Restrictions
+> [!IMPORTANT] 
+> **_This software is proprietary and subject to strict usage restrictions._** 
 
-**IMPORTANT: This software is proprietary and subject to strict usage restrictions.**
+## License and Usage Restrictions
 
 ### Permitted Use
 
 - Integration within the official Sora/Sulfur iOS application
-- Development and testing in **authorized** development environments
+- Development and testing in **_authorized_** development environments
 
 ### Prohibited Activities
 
