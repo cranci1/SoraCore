@@ -1,7 +1,7 @@
 Copyright (c) 2025, cranci
 All rights reserved.
 
-This software module is licensed exclusively for use within the [Sora/Sulfur iOS application](https://github.com/cranci1/Sora), developed by cranc1.  
+This software module is licensed exclusively for use within the [Sora/Sulfur iOS application](https://github.com/cranci1/Sora), developed by cranci1.  
 Use outside of this context is strictly prohibited.
 
 ## LICENSE TERMS:
