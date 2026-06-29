@@ -2,10 +2,10 @@
 
 <div align="center">
 
+**The swift package used by Sora, Luna & Celestia to manage extensions.**
+
 [![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20iPadOS%2015.0%2B%20%26%20macOS%2012.0%2B%26%20tvOS%2017.5%2B-red?logo=apple&logoColor=white)](https://img.shields.io/badge/Platform-iOS%20%7C%20iPadOS%2015.0%2B%20%26%20macOS%2012.0%2B%26%20tvOS%2017.5%2B-red?logo=apple&logoColor=white)
 [![License](https://img.shields.io/badge/license-GPLv3-blue)](./LICENSE)
-
-**The swift package used by Sora, Luna & Celestia to manage extensions.**
 </div>
 
 ## License
