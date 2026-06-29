@@ -5,19 +5,31 @@ import PackageDescription
 
 let package = Package(
     name: "SoraCore",
+    platforms: [
+        .iOS(.v15),
+        .tvOS("17.5")
+    ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "SoraCore",
             targets: ["SoraCore"]),
     ],
+    dependencies: [
+        .package(
+            url: "https://github.com/cranci1/Sybau.git",
+            branch: "main"
+        ),
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "SoraCore"),
-        .testTarget(
-            name: "SoraCoreTests",
-            dependencies: ["SoraCore"]),
+            name: "SoraCore",
+            dependencies: [
+                .product(name: "Sybau", package: "Sybau"),
+            ],
+            path: "Sources"
+        ),
     ]
 )

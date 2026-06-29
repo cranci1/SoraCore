@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "mpvkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/mpvkit/MPVKit.git",
+      "state" : {
+        "revision" : "613c0ccc3acf70e136aaff880a9b5fe8fdfaf5b8",
+        "version" : "0.41.0"
+      }
+    },
+    {
+      "identity" : "sybau",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/cranci1/Sybau.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d30e9d0409b72fa628b7eae948006a3e94d6b115"
+      }
+    }
+  ],
+  "version" : 2
+}

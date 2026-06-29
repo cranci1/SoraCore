@@ -1,29 +1,29 @@
 # SoraCore
 
-SoraCore is a Swift package designed as a security framework for modules created specifically for the [Sora/Sulfur iOS application](https://github.com/cranci1/Sora). It provides runtime validation and protection mechanisms to ensure modules can only be executed within their intended application environment.
+<div align="center">
 
-> [!IMPORTANT] 
-> **_This software is proprietary and subject to strict usage restrictions._** 
+[![Platform](https://img.shields.io/badge/Platform-iOS%20%7C%20iPadOS%2015.0%2B%20%26%20macOS%2012.0%2B%26%20tvOS%2017.5%2B-red?logo=apple&logoColor=white)](https://img.shields.io/badge/Platform-iOS%20%7C%20iPadOS%2015.0%2B%20%26%20macOS%2012.0%2B%26%20tvOS%2017.5%2B-red?logo=apple&logoColor=white)
+[![License](https://img.shields.io/badge/license-GPLv3-blue)](./LICENSE)
 
-## License and Usage Restrictions
+**The swift package used by Sora, Luna & Celestia to manage extensions.**
+</div>
 
-### Permitted Use
+## License
+This project is licensed under the [GNU General Public License v3.0](./LICENSE) (GPLv3.0).
 
-- Integration within the official Sora/Sulfur iOS application
-- Development and testing in **_authorized_** development environments
+```
+Copyright (c) 2026 cranci. All rights reserved.
 
-### Prohibited Activities
+SoraCore is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-- Copying, modifying, or distributing this code
-- Creating derivative works or implementing similar logic
-- Using this package in unauthorized applications
-- Reverse engineering or bypassing protection mechanisms
+SwiftyBox is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
 
-### Legal Notice
-
-This code is made available for transparency purposes only. All rights are reserved by the author. Unauthorized use may result in legal action.
-
-This means no other apps should have a method to allow Sora modules to work inside their app.
-
-> [!Note]
-> This project is open-source to provide transparency about its security mechanisms and to demonstrate that no malicious code is present. However, being open-source does not grant usage rights beyond those explicitly stated in this license.
+You should have received a copy of the GNU General Public License
+along with SoraCore. If not, see <https://www.gnu.org/licenses/>.
+```
