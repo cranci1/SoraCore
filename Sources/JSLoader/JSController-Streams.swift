@@ -15,7 +15,7 @@ extension JSController {
     
     /// Fetches the page at `episodeUrl`, then passes the HTML to the synchronous JS
     /// function `extractStreamUrl`
-    func fetchStreamUrl(
+    public func fetchStreamUrl(
         episodeUrl: String,
         softsub: Bool = false,
         module: Service,
@@ -78,7 +78,7 @@ extension JSController {
     // MARK: Promise-based stream extraction (async JS, URL passed directly)
     
     /// Calls `extractStreamUrl(episodeUrl)` as a Promise-returning JS function
-    func fetchStreamUrlJS(
+    public func fetchStreamUrlJS(
         episodeUrl: String,
         softsub: Bool = false,
         module: Service,
@@ -100,7 +100,7 @@ extension JSController {
     
     /// Fetches the page at `episodeUrl` over URLSession, then calls
     /// `extractStreamUrl(html)` as a Promise-returning JS function
-    func fetchStreamUrlJSSecond(
+    public func fetchStreamUrlJSSecond(
         episodeUrl: String,
         softsub: Bool = false,
         module: Service,
@@ -209,7 +209,6 @@ extension JSController {
         }
         
         do {
-            // Object form
             if let obj = try JSONSerialization.jsonObject(with: data) as? [String: Any] {
                 var streams: [String]? = nil
                 var subtitles: [String]? = nil

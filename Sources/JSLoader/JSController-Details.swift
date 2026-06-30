@@ -14,7 +14,7 @@ extension JSController {
     
     /// Fetches the page at `url`, then passes the HTML to the synchronous JS functions
     /// `extractDetails` and `extractEpisodes`.
-    func fetchDetails(
+    public func fetchDetails(
         url: String,
         completion: @escaping @Sendable ([MediaItem], [EpisodeLink]) -> Void
     ) {
@@ -80,7 +80,7 @@ extension JSController {
     
     /// Calls the Promise-based JS functions `extractDetails` and `extractEpisodes`
     /// concurrently, waits for both, then delivers results on the main queue.
-    func fetchDetailsJS(
+    public func fetchDetailsJS(
         url: String,
         completion: @escaping @Sendable ([MediaItem], [EpisodeLink]) -> Void
     ) {

@@ -9,12 +9,12 @@ import Sybau
 import JavaScriptCore
 
 final class JSController: NSObject, ObservableObject {
-    static let shared = JSController()
+    public static let shared = JSController()
     private(set) var context: JSContext
     
     // MARK: - Init
     
-    override init() {
+    public override init() {
         self.context = JSContext()
         super.init()
         setupContext()
@@ -29,7 +29,7 @@ final class JSController: NSObject, ObservableObject {
         }
     }
     
-    func loadScript(_ script: String) {
+    public func loadScript(_ script: String) {
         context = JSContext()
         setupContext()
         context.evaluateScript(script)

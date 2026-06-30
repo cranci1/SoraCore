@@ -13,7 +13,7 @@ extension JSController {
     // MARK: - HTML-based search (synchronous JS)
     
     /// Fetches a search page, then passes the raw HTML to the JS `searchResults` function.
-    func fetchSearchResults(
+    public func fetchSearchResults(
         keyword: String,
         module: Service,
         completion: @escaping @Sendable ([SearchItem]) -> Void
@@ -63,8 +63,8 @@ extension JSController {
     // MARK: - Async JS search (Promise-based)
     
     /// Calls the JS `searchResults` function directly (no prior HTTP fetch) and awaits
-    /// its Promise.  Used for modules with `asyncJS == true`.
-    func fetchJsSearchResults(
+    /// its Promise.  Used for services with `asyncJS == true`.
+    public func fetchJsSearchResults(
         keyword: String,
         module: Service,
         completion: @escaping @Sendable ([SearchItem]) -> Void

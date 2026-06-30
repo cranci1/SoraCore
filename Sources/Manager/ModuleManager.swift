@@ -9,63 +9,63 @@ import Sybau
 import Foundation
 
 extension Notification.Name {
-    static let modulesSyncDidComplete = Notification.Name("modulesSyncDidComplete")
+    static let servicesSyncDidComplete = Notification.Name("servicesSyncDidComplete")
     static let moduleRemoved = Notification.Name("moduleRemoved")
     static let didReceiveNewModule = Notification.Name("didReceiveNewModule")
-    static let didUpdateModules = Notification.Name("didUpdateModules")
+    static let didUpdateservices = Notification.Name("didUpdateservices")
 }
 
 @MainActor
-class ModuleManager: ObservableObject {
-    static let shared = ModuleManager()
+final class ServiceManager: ObservableObject {
+    static let shared = ServiceManager()
     
-    @Published var modules: [Service] = []
+    @Published var services: [Service] = []
     @Published var selectedModuleChanged = false
     
     private let fileManager = FileManager.default
-    private let modulesFileName = "modules.json"
+    private let servicesFileName = "services.json"
     
-    init() {
-        let url = getModulesFilePath()
+    public init() {
+        let url = getservicesFilePath()
         if (!FileManager.default.fileExists(atPath: url.path)) {
             do {
                 try "[]".write(to: url, atomically: true, encoding: .utf8)
-                Logger.shared.log("Created empty modules file", type: "Info")
+                Logger.shared.log("Created empty services file", type: "Info")
             } catch {
-                Logger.shared.log("Failed to create modules file: \(error.localizedDescription)", type: "Error")
+                Logger.shared.log("Failed to create services file: \(error.localizedDescription)", type: "Error")
             }
         }
-        loadModules()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleModulesSyncCompleted), name: .modulesSyncDidComplete, object: nil)
+        loadservices()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleservicesSyncCompleted), name: .servicesSyncDidComplete, object: nil)
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
-    @objc private func handleModulesSyncCompleted() {
+    @objc private func handleservicesSyncCompleted() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             
-            let url = self.getModulesFilePath()
+            let url = self.getservicesFilePath()
             guard FileManager.default.fileExists(atPath: url.path) else {
-                Logger.shared.log("No modules file found after sync", type: "Error")
-                self.modules = []
+                Logger.shared.log("No services file found after sync", type: "Error")
+                self.services = []
                 return
             }
             
             do {
                 let data = try Data(contentsOf: url)
-                let decodedModules = try JSONDecoder().decode([Service].self, from: data)
-                self.modules = decodedModules
+                let decodedservices = try JSONDecoder().decode([Service].self, from: data)
+                self.services = decodedservices
                 
                 Task {
                     await self.checkJSModuleFiles()
                 }
-                Logger.shared.log("Reloaded modules after iCloud sync")
+                Logger.shared.log("Reloaded services after iCloud sync")
             } catch {
-                Logger.shared.log("Error handling modules sync: \(error.localizedDescription)", type: "Error")
-                self.modules = []
+                Logger.shared.log("Error handling services sync: \(error.localizedDescription)", type: "Error")
+                self.services = []
             }
         }
     }
@@ -74,21 +74,21 @@ class ModuleManager: ObservableObject {
         fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
     }
     
-    private func getModulesFilePath() -> URL {
-        getDocumentsDirectory().appendingPathComponent(modulesFileName)
+    private func getservicesFilePath() -> URL {
+        getDocumentsDirectory().appendingPathComponent(servicesFileName)
     }
     
-    func loadModules() {
-        let url = getModulesFilePath()
+    public func loadservices() {
+        let url = getservicesFilePath()
         
         guard FileManager.default.fileExists(atPath: url.path) else {
-            Logger.shared.log("Modules file does not exist, creating empty one", type: "Info")
+            Logger.shared.log("services file does not exist, creating empty one", type: "Info")
             do {
                 try "[]".write(to: url, atomically: true, encoding: .utf8)
-                modules = []
+                services = []
             } catch {
-                Logger.shared.log("Failed to create modules file: \(error.localizedDescription)", type: "Error")
-                modules = []
+                Logger.shared.log("Failed to create services file: \(error.localizedDescription)", type: "Error")
+                services = []
             }
             return
         }
@@ -96,28 +96,28 @@ class ModuleManager: ObservableObject {
         do {
             let data = try Data(contentsOf: url)
             do {
-                let decodedModules = try JSONDecoder().decode([Service].self, from: data)
-                modules = decodedModules
+                let decodedservices = try JSONDecoder().decode([Service].self, from: data)
+                services = decodedservices
                 
                 Task {
                     await checkJSModuleFiles()
                 }
             } catch {
-                Logger.shared.log("Failed to decode modules: \(error.localizedDescription)", type: "Error")
+                Logger.shared.log("Failed to decode services: \(error.localizedDescription)", type: "Error")
                 try "[]".write(to: url, atomically: true, encoding: .utf8)
-                modules = []
+                services = []
             }
         } catch {
-            Logger.shared.log("Failed to load modules file: \(error.localizedDescription)", type: "Error")
-            modules = []
+            Logger.shared.log("Failed to load services file: \(error.localizedDescription)", type: "Error")
+            services = []
         }
     }
     
-    func checkJSModuleFiles() async {
+    public func checkJSModuleFiles() async {
         Logger.shared.log("Checking JS module files...", type: "Info")
         var missingCount = 0
         
-        for module in modules {
+        for module in services {
             let localUrl = getDocumentsDirectory().appendingPathComponent(module.localPath)
             if !fileManager.fileExists(atPath: localUrl.path) {
                 missingCount += 1
@@ -150,20 +150,20 @@ class ModuleManager: ObservableObject {
         }
     }
     
-    private func saveModules() {
+    private func saveservices() {
         DispatchQueue.main.async {
-            let url = self.getModulesFilePath()
-            guard let data = try? JSONEncoder().encode(self.modules) else { return }
+            let url = self.getservicesFilePath()
+            guard let data = try? JSONEncoder().encode(self.services) else { return }
             try? data.write(to: url)
         }
     }
     
-    func addModule(metadataUrl: String) async throws -> Service {
+    public func addModule(metadataUrl: String) async throws -> Service {
         guard let url = URL(string: metadataUrl) else {
             throw NSError(domain: "Invalid metadata URL", code: -1)
         }
         
-        if modules.contains(where: { $0.metadataUrl == metadataUrl }) {
+        if services.contains(where: { $0.metadataUrl == metadataUrl }) {
             throw NSError(domain: "Module already exists", code: -1)
         }
         
@@ -190,8 +190,8 @@ class ModuleManager: ObservableObject {
         )
         
         DispatchQueue.main.async {
-            self.modules.append(module)
-            self.saveModules()
+            self.services.append(module)
+            self.saveservices()
             self.selectedModuleChanged = true
             Logger.shared.log("Added module: \(module.metadata.sourceName)")
         }
@@ -199,27 +199,27 @@ class ModuleManager: ObservableObject {
         return module
     }
     
-    func deleteModule(_ module: Service) {
+    public func deleteModule(_ module: Service) {
         let localUrl = getDocumentsDirectory().appendingPathComponent(module.localPath)
         try? fileManager.removeItem(at: localUrl)
         
-        modules.removeAll { $0.id == module.id }
-        saveModules()
+        services.removeAll { $0.id == module.id }
+        saveservices()
         Logger.shared.log("Deleted module: \(module.metadata.sourceName)")
         
         NotificationCenter.default.post(name: .moduleRemoved, object: module.id.uuidString)
     }
     
-    func getModuleContent(_ module: Service) throws -> String {
+    public func getModuleContent(_ module: Service) throws -> String {
         let localUrl = getDocumentsDirectory().appendingPathComponent(module.localPath)
         return try String(contentsOf: localUrl, encoding: .utf8)
     }
     
-    func refreshModules() async {
-        let modulesCopy = modules
-        var updatedModules: [(Int, Service)] = []
+    public func refreshservices() async {
+        let servicesCopy = services
+        var updatedservices: [(Int, Service)] = []
         
-        for (index, module) in modulesCopy.enumerated() {
+        for (index, module) in servicesCopy.enumerated() {
             do {
                 guard let metadataUrl = URL(string: module.metadataUrl) else {
                     Logger.shared.log("Invalid metadata URL for module: \(module.metadata.sourceName)", type: "Error")
@@ -250,7 +250,7 @@ class ModuleManager: ObservableObject {
                         isActive: module.isActive
                     )
                     
-                    updatedModules.append((index, updatedModule))
+                    updatedservices.append((index, updatedModule))
                     Logger.shared.log("Prepared update for module: \(module.metadata.sourceName) to version \(newMetadata.version)")
                 }
             } catch {
@@ -258,14 +258,14 @@ class ModuleManager: ObservableObject {
             }
         }
         
-        if !updatedModules.isEmpty {
-            for (index, updatedModule) in updatedModules {
-                if index < modules.count {
-                    modules[index] = updatedModule
+        if !updatedservices.isEmpty {
+            for (index, updatedModule) in updatedservices {
+                if index < services.count {
+                    services[index] = updatedModule
                 }
             }
-            saveModules()
-            Logger.shared.log("Successfully updated \(updatedModules.count) modules")
+            saveservices()
+            Logger.shared.log("Successfully updated \(updatedservices.count) services")
         }
     }
 }

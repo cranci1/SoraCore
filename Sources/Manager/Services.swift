@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct Service: Codable, Identifiable, Hashable, Sendable {
-    let id: UUID
-    let metadata: ServiceMetadata
-    let localPath: String
-    let metadataUrl: String
-    var isActive: Bool
+public struct Service: Codable, Identifiable, Hashable, Sendable {
+    public let id: UUID
+    public let metadata: ServiceMetadata
+    public let localPath: String
+    public let metadataUrl: String
+    public var isActive: Bool
     
     init(
         id: UUID = UUID(),
@@ -28,43 +28,41 @@ struct Service: Codable, Identifiable, Hashable, Sendable {
         self.isActive = isActive
     }
     
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
-    static func == (lhs: Service, rhs: Service) -> Bool {
+    public static func == (lhs: Service, rhs: Service) -> Bool {
         lhs.id == rhs.id
     }
 }
 
-struct ServiceMetadata: Codable, Hashable, Sendable {
-    let sourceName: String
-    let author: Author
-    let iconUrl: String
-    let version: String
-    let language: String
-    let baseUrl: String
-    let streamType: String
-    let quality: String
-    let searchBaseUrl: String
-    let scriptUrl: String
+public struct ServiceMetadata: Codable, Hashable, Sendable {
+    public let sourceName: String
+    public let author: Author
+    public let iconUrl: String
+    public let version: String
+    public let language: String
+    public let baseUrl: String
+    public let streamType: String
+    public let quality: String
+    public let searchBaseUrl: String
+    public let scriptUrl: String
     
-    // Optional feature flags
-    let asyncJS: Bool?
-    let streamAsyncJS: Bool?
-    let softsub: Bool?
-    let multiStream: Bool?
-    let multiSubs: Bool?
-    let type: String?
+    public let asyncJS: Bool?
+    public let streamAsyncJS: Bool?
+    public let softsub: Bool?
+    public let multiStream: Bool?
+    public let multiSubs: Bool?
+    public let type: String?
     
-    // Convenience helpers so call-sites don't need to `?? false` everywhere
-    var isAsyncJS: Bool         { asyncJS       ?? false }
-    var isStreamAsyncJS: Bool   { streamAsyncJS ?? false }
-    var hasSoftsub: Bool        { softsub       ?? false }
-    var hasMultiStream: Bool    { multiStream   ?? false }
-    var hasMultiSubs: Bool      { multiSubs     ?? false }
+    public var isAsyncJS: Bool { asyncJS ?? false }
+    public var isStreamAsyncJS: Bool { streamAsyncJS ?? false }
+    public var hasSoftsub: Bool { softsub ?? false }
+    public var hasMultiStream: Bool { multiStream ?? false }
+    public var hasMultiSubs: Bool { multiSubs ?? false }
     
-    struct Author: Codable, Hashable, Sendable {
+    public struct Author: Codable, Hashable, Sendable {
         let name: String
         let icon: String
     }

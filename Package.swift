@@ -7,7 +7,8 @@ let package = Package(
     name: "SoraCore",
     platforms: [
         .iOS(.v15),
-        .tvOS("17.5")
+        .tvOS("17.5"),
+        .macOS(.v11)
     ],
     products: [
         // Products define the executables and libraries a package produces, making them visible to other packages.

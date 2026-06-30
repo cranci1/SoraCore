@@ -66,17 +66,17 @@ extension URLSession {
         "Mozilla/5.0 (Linux; Android 16; SM-G973F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Mobile Safari/537.36 EdgA/149.0.4022.0",
         "Mozilla/5.0 (iPhone; CPU iPhone OS 26_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.0 EdgiOS/149.4022.0 Mobile/15E148 Safari/605.1.15",
     ]
-    static let randomUserAgent: String = userAgents.randomElement() ?? userAgents[0]
+    public static let randomUserAgent: String = userAgents.randomElement() ?? userAgents[0]
     
     // MARK: Shared sessions
     
-    static let custom: URLSession = {
+    public static let custom: URLSession = {
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["User-Agent": randomUserAgent]
         return URLSession(configuration: config)
     }()
     
-    static func fetchData(allowRedirects: Bool) -> URLSession {
+    public static func fetchData(allowRedirects: Bool) -> URLSession {
         let config = URLSessionConfiguration.default
         config.httpAdditionalHeaders = ["User-Agent": randomUserAgent]
         return URLSession(
