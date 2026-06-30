@@ -78,6 +78,17 @@ extension JSController {
     
     // MARK: - Async JS details (Promise-based)
     
+    /// Convenience wrapper around `fetchDetailsJS` that only returns the episode list,
+    /// discarding the `MediaItem` details. Useful when callers only need episodes.
+    public func fetchEpisodesJS(
+        url: String,
+        completion: @escaping @Sendable ([EpisodeLink]) -> Void
+    ) {
+        fetchDetailsJS(url: url) { _, episodes in
+            completion(episodes)
+        }
+    }
+    
     /// Calls the Promise-based JS functions `extractDetails` and `extractEpisodes`
     /// concurrently, waits for both, then delivers results on the main queue.
     public func fetchDetailsJS(
