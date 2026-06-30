@@ -299,8 +299,10 @@ extension JSContext {
         setupWeirdCode()
         setupConsoleLogging()
         setupNativeFetch()
+#if !os(tvOS)
         setupNetworkFetch()
         setupNetworkFetchSimple()
+#endif
         setupFetchV2()
         setupBase64Functions()
         setupUtilities()

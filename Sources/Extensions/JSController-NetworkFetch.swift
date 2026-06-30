@@ -5,6 +5,7 @@
 //  Created by paul on 17/08/2025.
 //
 
+#if !os(tvOS)
 import WebKit
 import JavaScriptCore
 
@@ -808,3 +809,4 @@ private func playInteractionScript() -> String {
     }, 1000);
     """
 }
+#endif
