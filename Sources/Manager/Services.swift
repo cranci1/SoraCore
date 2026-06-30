@@ -28,6 +28,14 @@ public struct Service: Codable, Identifiable, Hashable, Sendable {
         self.isActive = isActive
     }
     
+    public var url: String { metadataUrl }
+    
+    public var jsScript: String {
+        let documentsUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let localUrl = documentsUrl.appendingPathComponent(localPath)
+        return (try? String(contentsOf: localUrl, encoding: .utf8)) ?? ""
+    }
+    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -55,6 +63,7 @@ public struct ServiceMetadata: Codable, Hashable, Sendable {
     public let multiStream: Bool?
     public let multiSubs: Bool?
     public let type: String?
+    public let settings: Bool?
     
     public var isAsyncJS: Bool { asyncJS ?? false }
     public var isStreamAsyncJS: Bool { streamAsyncJS ?? false }
@@ -63,7 +72,7 @@ public struct ServiceMetadata: Codable, Hashable, Sendable {
     public var hasMultiSubs: Bool { multiSubs ?? false }
     
     public struct Author: Codable, Hashable, Sendable {
-        let name: String
-        let icon: String
+        public let name: String
+        public let icon: String
     }
 }

@@ -8,7 +8,7 @@
 import Sybau
 import JavaScriptCore
 
-typealias StreamResult = (streams: [String]?, subtitles: [String]?, sources: [[String: Any]]?)
+public typealias StreamResult = (streams: [String]?, subtitles: [String]?, sources: [[String: Any]]?)
 
 extension JSController {
     // MARK: HTML-based stream extraction (synchronous JS)

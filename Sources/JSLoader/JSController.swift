@@ -8,7 +8,7 @@
 import Sybau
 import JavaScriptCore
 
-final class JSController: NSObject, ObservableObject {
+public final class JSController: NSObject, ObservableObject {
     public static let shared = JSController()
     private(set) var context: JSContext
     

@@ -16,11 +16,13 @@ extension Notification.Name {
 }
 
 @MainActor
-final class ServiceManager: ObservableObject {
-    static let shared = ServiceManager()
+public final class ServiceManager: ObservableObject {
+    public static let shared = ServiceManager()
     
-    @Published var services: [Service] = []
-    @Published var selectedModuleChanged = false
+    @Published public var services: [Service] = []
+    @Published public var selectedModuleChanged = false
+    
+    public var activeServices: [Service] { services.filter { $0.isActive } }
     
     private let fileManager = FileManager.default
     private let servicesFileName = "services.json"
@@ -210,12 +212,38 @@ final class ServiceManager: ObservableObject {
         NotificationCenter.default.post(name: .moduleRemoved, object: module.id.uuidString)
     }
     
+    public func removeService(_ service: Service) {
+        deleteModule(service)
+    }
+    
+    public func setServiceState(_ service: Service, isActive: Bool) {
+        guard let index = services.firstIndex(where: { $0.id == service.id }) else { return }
+        services[index].isActive = isActive
+        saveservices()
+        selectedModuleChanged = true
+    }
+    
+    public func moveServices(fromOffsets indices: IndexSet, toOffset offset: Int) {
+        services.move(fromOffsets: indices, toOffset: offset)
+        saveservices()
+    }
+    
+    public func handlePotentialServiceURL(_ urlString: String) async -> Bool {
+        do {
+            _ = try await addModule(metadataUrl: urlString)
+            return true
+        } catch {
+            Logger.shared.log("Failed to add service from URL: \(error.localizedDescription)", type: "Error")
+            return false
+        }
+    }
+    
     public func getModuleContent(_ module: Service) throws -> String {
         let localUrl = getDocumentsDirectory().appendingPathComponent(module.localPath)
         return try String(contentsOf: localUrl, encoding: .utf8)
     }
     
-    public func refreshservices() async {
+    public func updateServices() async {
         let servicesCopy = services
         var updatedservices: [(Int, Service)] = []
         
